@@ -95,3 +95,59 @@ function questionClick() {
         getQuestion();
     }
 
+function quizEnd() {
+    clearInterval(timerId);
+
+    // End Screen
+    var endScreenEl = document.getElementById("end-screen");
+    endScreenEl.removeAttribute("class");
+
+    // Final Score
+    var finalScoreEl = document.getElementById("final-score");
+    finalScoreEl.setAttribute("class", "hide");
+}
+
+function clockTick() {
+    // Update Time
+    time--;
+    timerEl.textContent = time;
+
+    // Check if out of time
+    if (time <=0) {
+        quizEnd();
+    }
+}
+
+function saveHighScore() {
+    var initials = initialsEl.value.trim();
+
+    if (initials !== "") {
+        // Get Saved Scores from LocalStorage or set empty array
+        var highscores =
+        JSON.parse(window.localStorage.getItem("highscores")) || [];
+        // Format new score object for current user
+        var newScore = {
+            score: time,
+            initials: initials
+        };
+        // Local Storage save
+        highscores.push(newScore);
+        window.localStorage.setItem("highscores", JSON.stringify(highscores));
+        window.location.href = "score.html";
+    }
+}
+
+function checkForEnter(event) {
+    if (event.key === "Enter") {
+        saveHighScore();
+    }
+}
+
+// Submit Initials
+submitBtn.onclick = saveHighScore;
+
+// Start Quiz
+startBtn.onclick = startQuiz;
+
+initialsEl.onkeyup = checkForEnter;
+
