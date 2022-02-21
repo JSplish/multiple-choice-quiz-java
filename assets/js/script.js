@@ -57,3 +57,41 @@ function getQuestion() {
 });
 }
 
+function questionClick() {
+    // check if user guessed incorrectly
+    if (this.value !== questions[currentQuestionIndex].answer) {
+        //deduct time
+        time -= 15;
+
+    if (time < 0) {
+        time = 0;
+    }
+
+    //display new time
+        timerEl.textContent = time;
+        feedbackEl.textContent = "Wrong!";
+        feedbackEl.getElementsByClassName.color = "red";
+        feedbackEl.getElementsByClassName.fontSize = "400%"
+    } else {
+        feedbackEl.textContent = "Correct, Well Done!";
+        feedbackEl.getElementsByClassName.color = "green";
+        feedbackEl.getElementsByClassName.fontSize == "400%";
+    }
+
+    // Right or Wrong feedback
+        feedbackEl.setAttribute("class", "feedback");
+        setTimeout(function() {
+            feedbackEl.setAttribute("class", "feedback hide");
+        }, 1000);
+}
+
+        // Next Question
+        currentQuestionIndex++;
+
+    // Check Time
+    if (currentQuestionIndex === questions.length) {
+        quizEnd();
+    } else {
+        getQuestion();
+    }
+
